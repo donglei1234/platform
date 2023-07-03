@@ -1,0 +1,42 @@
+spacerouter-service:
+  name: "auth"
+
+  project: "ca/dev/sr/services"
+
+  image:
+    registry: "docker.leyoutech.net/platform/services"
+
+  ingress:
+    enabled: true
+    dns:
+      domain: "dev.leyoutech.net"
+      subdomain: "auth"
+    routes:
+      grpc:
+      - package: "auth.pb"
+        services:
+        - "AuthPublic"
+
+  config:
+    values:
+    - name: "DOCUMENT_STORE_URL"
+      value: "couchbase://couchbase"
+    secrets:
+    - name: "COUCHBASE_USERNAME"
+      from:
+        name: "couchbase-auth"
+        key: "username"
+    - name: "COUCHBASE_PASSWORD"
+      from:
+        name: "couchbase-auth"
+        key: "password"
+    - name: "STEAM_APP_ID"
+      from:
+        name: "steam-auth"
+        key: "app-id"
+        optional: true
+    - name: "STEAM_API_KEY"
+      from:
+        name: "steam-auth"
+        key: "api-key"
+        optional: true

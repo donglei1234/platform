@@ -1,0 +1,119 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "condition.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ConditionService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "ConditionUpdateStrategy": {
+      "type": "string",
+      "enum": [
+        "STRATEGY_NONE",
+        "STRATEGY_REPLACE",
+        "STRATEGY_ADD"
+      ],
+      "default": "STRATEGY_NONE"
+    },
+    "conditionpbNothing": {
+      "type": "object"
+    },
+    "googlerpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "pbChanges": {
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbCondition"
+          }
+        }
+      }
+    },
+    "pbCondition": {
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "progress": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/pbConditionStatus"
+        },
+        "updateStrategy": {
+          "$ref": "#/definitions/ConditionUpdateStrategy"
+        }
+      }
+    },
+    "pbConditionStatus": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "ACTIVE",
+        "FINISHED"
+      ],
+      "default": "NONE"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    }
+  }
+}
