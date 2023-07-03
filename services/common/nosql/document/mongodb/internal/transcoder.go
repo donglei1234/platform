@@ -2,6 +2,7 @@ package internal
 
 import (
 	"github.com/donglei1234/platform/services/common/jsonx"
+	"gopkg.in/couchbase/gocbcore.v7"
 )
 
 var (

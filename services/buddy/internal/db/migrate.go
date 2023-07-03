@@ -1,6 +1,7 @@
 package db
 
 import (
+	jsoniter "github.com/json-iterator/go"
 	"go.uber.org/zap"
 
 	"github.com/donglei1234/platform/services/buddy/internal/db/schemas/latest"

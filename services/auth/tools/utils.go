@@ -5,6 +5,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	pb "github.com/donglei1234/platform/services/proto/gen/auth/api"
+	"github.com/golang-jwt/jwt/v5"
+	"google.golang.org/api/oauth2/v1"
 	"strconv"
 	"strings"
 	"time"
