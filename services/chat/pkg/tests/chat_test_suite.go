@@ -9,7 +9,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/donglei1234/platform/services/auth/pkg/auth"
+	auth "github.com/donglei1234/platform/services/auth/pkg/module"
 	"github.com/donglei1234/platform/services/chat/internal/app/service/public"
 	"github.com/donglei1234/platform/services/chat/pkg/client"
 	pb "github.com/donglei1234/platform/services/proto/gen/chat/api"

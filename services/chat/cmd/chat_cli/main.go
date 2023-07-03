@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	pb "github.com/donglei1234/platform/services/proto/gen/chat/api"
 	"io"
 	"time"
 
@@ -10,7 +11,6 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/abiosoft/ishell"
-	"github.com/donglei1234/platform/services/auth/pkg/auth"
 	"github.com/donglei1234/platform/services/chat/pkg/client"
 	ish "github.com/donglei1234/platform/services/chat/pkg/ishellex"
 	"github.com/spf13/cobra"
@@ -320,7 +320,7 @@ func authAndSubscribe(c *ishell.Context) (cli *client.Client, stream client.Chat
 
 func authenticate(c *ishell.Context) (token string, err error) {
 	ish.Info(c, "Authenticating...")
-	if authClient, e := auth.NewPublicClient(zap.L(), options.auth, options.secure); e != nil {
+	if authClient, e := client.NewPublicClient(zap.L(), options.auth, options.secure); e != nil {
 		err = e
 	} else if t, e := authClient.AuthenticateWithUsername(
 		context.Background(),
