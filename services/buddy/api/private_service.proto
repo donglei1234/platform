@@ -1,0 +1,49 @@
+syntax = "proto3";
+package buddy.pb;
+option go_package = "buddy/api;buddy";
+
+// Import path is relative to root directory specified in .spacerouter.yml
+import "buddy_common.proto";
+
+// PrivateService is a private service for accessing buddies for an arbitrary user.
+service PrivateService {
+    // GetProfileBuddies returns the provided user's buddies.
+    rpc GetProfileBuddies (GetProfileBuddiesRequest) returns (Buddies);
+
+    // WatchProfileBuddies returns a stream on which changes to the provided user's buddies will be sent.
+    rpc WatchProfileBuddies (WatchProfileBuddiesRequest) returns (stream ROSUpdate);
+
+
+    // DEPRECATED
+    // GetBuddies returns the provided user's buddies.
+    rpc GetBuddies (Name) returns (Buddies);
+    // DEPRECATED
+    // WatchBuddies returns a stream on which changes to the provided user's buddies will be sent.
+    rpc WatchBuddies (Name) returns (stream ROSUpdate);
+
+    rpc GetProfileBlockedList (GetProfileBlockedListRequest) returns (GetProfileBlockedListResponse);
+}
+
+message GetProfileBuddiesRequest {
+    ProfileId profileId = 1;
+    AppId appId = 2;
+}
+
+message WatchProfileBuddiesRequest {
+    ProfileId profileId = 1;
+    AppId appId = 2;
+}
+
+message GetProfileBlockedListRequest {
+    ProfileId profileId = 1;
+    AppId appId = 2;
+}
+
+message GetProfileBlockedListResponse {
+    repeated BlockedProfile profiles = 1;
+}
+
+message BlockedProfile {
+    ProfileId profileId = 1;
+    int64 addTime = 2;
+}

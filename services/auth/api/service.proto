@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package auth.pb;
+option go_package = "auth/api;pb";
+
+import "google/api/annotations.proto";
+import "message.proto";
+
+service AuthPublic {
+  rpc Authenticate (AuthenticateRequest) returns (AuthenticateResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/authenticate"
+      body: "*"
+    };
+  };
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/validateToken"
+      body: "*"
+    };
+  };
+
+  rpc AuthenticateRoom (AuthenticateRoomRequest) returns (AuthenticateRoomResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/authenticateRoom"
+      body: "*"
+    };
+  };
+
+  rpc ValidateRoomToken (ValidateRoomTokenRequest) returns (ValidateRoomTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/validateRoomToken"
+      body: "*"
+    };
+  };
+}
+
+service AuthPrivate {
+  rpc Bind (BindRequest) returns (BindResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/bind"
+      body: "*"
+    };
+  };
+}
+
+message RoomInfo {
+  string roomId = 1;
+  repeated string members = 2;
+  int32 roomType = 3;
+}
+
+message AuthenticateRoomRequest{
+  RoomInfo roomInfo = 1;
+}
+
+message AuthenticateRoomResponse{
+  string token = 1;
+}
+
+message ValidateRoomTokenRequest{
+  string token = 1;
+}
+
+message ValidateRoomTokenResponse{
+ RoomInfo roomInfo = 1;
+}
+
+
+
+message AuthenticateRequest {
+  string appId = 1;
+  string username = 2;
+  PlatformType platform = 3;
+}
+
+message AuthenticateResponse {
+  Session session = 1;
+}
+
+message ValidateTokenRequest{
+  string jwtToken = 1;
+}
+
+message ValidateTokenResponse{
+  Session session = 1;
+}

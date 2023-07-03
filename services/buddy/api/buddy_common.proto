@@ -1,0 +1,58 @@
+syntax = "proto3";
+package buddy.pb;
+option go_package = "buddy/api;buddy";
+
+// Name contains a buddy uid string (profile identifier).
+message Name {
+  string uid = 1;
+}
+
+message ProfileId {
+  string profileId = 1;
+}
+message AppId {
+  string appId = 1;
+}
+
+// Buddy contains state associated with a buddy.
+message Buddy {
+  string uid = 1;
+  int32 receiveReward = 2;
+  bool isFavorite = 3; // favorite is true if the buddy is a favorite.
+//  int64 sendRewardTime = 4; // rewarded is true if the buddy is rewarded.
+  string remark = 5;
+  int32 friendValue = 6;
+}
+
+message Inviter{
+  string uid = 1;
+  string reqInfo = 2;
+  int64 reqTime = 3;
+}
+
+message Blocked{
+  string uid = 1;
+  int64 addTime = 2;
+}
+
+// Buddies is a list of buddies.
+message Buddies {
+  repeated Buddy buddies = 1;
+  repeated Inviter inviters = 2;
+  map<string, Inviter>  InviterSends = 3;
+  repeated Blocked blocked = 4;
+}
+
+// ROSUpdate (replicated object store update) contains diffs to be applied to a ROSDocument.
+message ROSUpdate {
+  // Opaque data block that contains diffs for a document.
+  bytes data = 1;
+}
+
+// Nothing is used when there is no data to be sent.
+message Nothing {
+}
+
+message ProfileIds {
+  repeated ProfileId profileIds = 1;
+}

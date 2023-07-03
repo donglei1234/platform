@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package auth.pb;
+option go_package = "auth/api;pb";
+
+message PlatformType{
+  enum Type{
+    Unknown = 0;
+    Facebook = 1;
+    Google = 2;
+    NineYou = 3;
+  }
+}
+
+message Session {
+  string token = 1;
+  string appId = 2;
+  string userId = 3;
+}
+
+message BindRequest{
+  string appId = 1;
+  oneof Token{
+    string facebookToken = 2;
+    string googleToken = 3;
+  }
+}
+message BindResponse{
+  string uid = 1;
+  bool isReLogin = 2;
+}
+
+message NothingResponse{}
+

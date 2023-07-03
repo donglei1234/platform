@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package guild.pb;
+option go_package = "guild/api;pb";
+
+// #define
+// profileId {-1:开除，0:会长, 1-n:常规成员}
+
+message NothingResponse{}
+
+// 用户信息
+message UserMessage{
+  string userId = 1;
+}
+
+// 工会信息
+message GuildMessage{
+  string guildId = 1;
+  string name = 2;
+  string notice = 3;
+  string icon = 4;//存上传的地址
+  string attribute = 5;//包含约束的其他信息的json
+}
+
+// 成员信息
+message Member{
+  UserMessage userMessage = 1;
+  string profileId = 2;
+}
+
+//修改工会信息
+message ModifyGuildRequest{
+  GuildMessage message = 1;
+  enum Mode{
+    create = 0;
+    modify = 1;
+  }
+  Mode mode = 2;
+  UserMessage u_message = 3;
+  string profileId = 4;
+  string appId = 5;
+}
+
+// 搜索
+message SearchRequest{
+  string searchInput = 1;
+  int64 number = 2; //查询数量
+  string appId = 3;
+}
+message SearchResponse{
+  repeated GuildMessage guilds = 1;
+}
+
+// 加入
+message JoinRequest{
+  UserMessage userMessage = 1;
+  string guildId = 2;
+  string profileId = 3;
+  string guildAttr = 4;
+  string appId = 5;
+}
+
+// 退出
+message QuitRequest{
+  string userId = 1;
+  string guildAttr = 2;
+  string extra_userId = 3;//当会长退出时，是接任人的id
+  string appId = 4;
+  string guildId = 5;
+}
+
+// 解散
+message DelRequest{
+  string appId = 1;
+  string guildId = 2;
+}
+
+// 更新member profile
+message UpdateProfileRequest{
+  string memberId = 1;//目标id
+  string profileId = 2;//目标职级
+  string guildAttr = 3;
+  string extra_userId = 4;//当会长需要更改自己职级时候非空，是接任人的id
+  string appId = 5;
+  string guildId = 6;
+}
+message UpdateProfileResponse{
+  message ret{
+    string userId = 1;
+    string profileId = 2;
+  }
+  repeated ret Update = 1;
+}
+
+// user list
+message UserListRequest{
+  string idx = 1;
+  string appId = 2;
+}
+message UserListResponse{
+  repeated Member users = 1;
+}
+
+// post guild
+message PostGuildRequest{
+  string userId = 1;
+  string toId = 2;
+  string appId = 3;
+  string guildId = 4;
+  string profileId = 5;
+}
+
+//apply
+message ApplyRequest{
+  string userId = 1;
+  string guildId = 2;
+  string appId = 3;
+}
+
+//reply
+message ReplyRequest{
+  string guildId = 1;
+  string applyId = 2;
+  bool mode = 3; //是否批准入会
+  JoinRequest ifJoin = 4;
+  string appId = 5;
+}
+//get app list
+message GetApplyRequest{
+  string appId = 1;
+  string guildId = 2;
+}
+message GetApplyResponse{
+  repeated string userId = 1;
+}
