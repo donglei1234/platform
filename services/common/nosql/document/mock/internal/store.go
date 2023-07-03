@@ -3,6 +3,7 @@ package internal
 import (
 	document2 "github.com/donglei1234/platform/services/common/nosql/document"
 	errors2 "github.com/donglei1234/platform/services/common/nosql/errors"
+	jsoniter "github.com/json-iterator/go"
 	"io"
 	"reflect"
 	"regexp"
