@@ -1,4 +1,0 @@
-dependencies:
-- name: platform-service
-  version: "~0.5.0"
-  repository: http://helm.leyoutech.net

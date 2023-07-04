@@ -1,8 +1,0 @@
-version: v1
-name: buf.build/gstones/platform
-deps:
-  - buf.build/googleapis/googleapis
-  - buf.build/grpc-ecosystem/grpc-gateway
-lint:
-  use:
-    - DEFAULT
