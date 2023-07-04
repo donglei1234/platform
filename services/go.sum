@@ -42,6 +42,8 @@ github.com/abiosoft/readline v0.0.0-20180607040430-155bce2042db h1:CjPUSXOiYptLb
 github.com/abiosoft/readline v0.0.0-20180607040430-155bce2042db/go.mod h1:rB3B4rKii8V21ydCbIzH5hZiCQE7f5E9SzUb/ZZx530=
 github.com/aceld/zinx v1.1.14 h1:/Gg8LmAvRyvMPJZkCzK7r5/5AtW2EDuCHF1fClotlO0=
 github.com/aceld/zinx v1.1.14/go.mod h1:09eYMfirAhQ31ZGGjs2VBQcz75wXejnI4Ry7PR6srhk=
+github.com/aceld/zinx v1.1.21 h1:8zoZ+hcEAd7gDsl8xOKPaWPEs9vZDRQOvhjG3vuvAnQ=
+github.com/aceld/zinx v1.1.21/go.mod h1:nITkdASGtkLSwNKZ5yj88IpcCHTCFCP6cL12JWms1Fo=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 h1:JYp7IbQjafoB+tBA3gMyHYHrpOtNuDiK/uB5uXxq5wM=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
