@@ -1,4 +1,4 @@
-module github.com/donglei1234/platform/services
+module github.com/donglei1234/platform/services1
 
 go 1.20
 
