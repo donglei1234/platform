@@ -1,0 +1,343 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "AuthPublic"
+    },
+    {
+      "name": "AuthPrivate"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/auth/authenticate": {
+      "post": {
+        "operationId": "AuthPublic_Authenticate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbAuthenticateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbAuthenticateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthPublic"
+        ]
+      }
+    },
+    "/v1/auth/authenticateRoom": {
+      "post": {
+        "operationId": "AuthPublic_AuthenticateRoom",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbAuthenticateRoomResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbAuthenticateRoomRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthPublic"
+        ]
+      }
+    },
+    "/v1/auth/bind": {
+      "post": {
+        "operationId": "AuthPrivate_Bind",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbBindResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbBindRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthPrivate"
+        ]
+      }
+    },
+    "/v1/auth/validateRoomToken": {
+      "post": {
+        "operationId": "AuthPublic_ValidateRoomToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbValidateRoomTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbValidateRoomTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthPublic"
+        ]
+      }
+    },
+    "/v1/auth/validateToken": {
+      "post": {
+        "operationId": "AuthPublic_ValidateToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbValidateTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbValidateTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthPublic"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbAuthenticateRequest": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/definitions/pbPlatformType"
+        }
+      }
+    },
+    "pbAuthenticateResponse": {
+      "type": "object",
+      "properties": {
+        "session": {
+          "$ref": "#/definitions/pbSession"
+        }
+      }
+    },
+    "pbAuthenticateRoomRequest": {
+      "type": "object",
+      "properties": {
+        "roomInfo": {
+          "$ref": "#/definitions/pbRoomInfo"
+        }
+      }
+    },
+    "pbAuthenticateRoomResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "pbBindRequest": {
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string"
+        },
+        "facebookToken": {
+          "type": "string"
+        },
+        "googleToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbBindResponse": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "isReLogin": {
+          "type": "boolean"
+        }
+      }
+    },
+    "pbPlatformType": {
+      "type": "object"
+    },
+    "pbRoomInfo": {
+      "type": "object",
+      "properties": {
+        "roomId": {
+          "type": "string"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "roomType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "pbSession": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "appId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        }
+      }
+    },
+    "pbValidateRoomTokenRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "pbValidateRoomTokenResponse": {
+      "type": "object",
+      "properties": {
+        "roomInfo": {
+          "$ref": "#/definitions/pbRoomInfo"
+        }
+      }
+    },
+    "pbValidateTokenRequest": {
+      "type": "object",
+      "properties": {
+        "jwtToken": {
+          "type": "string"
+        }
+      }
+    },
+    "pbValidateTokenResponse": {
+      "type": "object",
+      "properties": {
+        "session": {
+          "$ref": "#/definitions/pbSession"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,162 @@
+syntax = "proto3";
+
+package gm.v1;
+option go_package = "gm/api;pb";
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+service GmService {
+  //封停、解封、解封时间、封停原因
+  rpc SetProfilesBanStatus (SetProfilesBanStatusRequest) returns (Nothing){
+    option (google.api.http) = {
+      post: "/v1/gm/profiles/ban/add"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "封停、解封、解封时间、封停原因."
+      description: "封停、解封、解封时间、封停原因."
+      tags: "Gm"
+    };
+  };
+
+  // watch 黑名单信息变化
+  rpc WatchProfilesBan (Nothing) returns (stream ProfilesBanChanges);
+
+  // 获取当前封停的账号信息
+  rpc GetProfilesBanStatus (GetProfilesBanStatusRequest) returns (GetProfilesBanStatusResponse){
+    option (google.api.http) = {
+      get: "/v1/gm/profiles/ban/get"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "获取当前封停的账号信息."
+      description: "获取当前封停的账号信息."
+      tags: "Gm"
+    };
+  };
+
+  //发送游戏内公告
+  rpc SendBulletin (SendBulletinRequest) returns (Nothing){
+    option (google.api.http) = {
+      post: "/v1/gm/bulletin/add"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Send bulletin."
+      description: "游戏内公告发送."
+      tags: "Gm"
+    };
+  };
+  // 获取游戏当前公告信息
+  rpc GetBulletin (GetBulletinRequest) returns (GetBulletinResponse){
+    option (google.api.http) = {
+      get: "/v1/gm/bulletin/get"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get bulletin."
+      description: "获取游戏当前公告信息."
+      tags: "Gm"
+    };
+  };
+
+  //根据账号或订单号查询充值金额、充值时间、是否到账
+  rpc GetPurchaseRecord (GetPurchaseRecordRequest) returns (GetPurchaseRecordResponse){
+    option (google.api.http) = {
+      get: "/v1/gm/purchase/record"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get purchase record."
+      description: "根据账号或订单号查询充值金额、充值时间、是否到账."
+      tags: "Gm"
+    };
+  };
+
+  //根据掉单订单号进行补单(每个订单只可进行一次成功补单）
+  rpc ReissuePurchase (ReissuePurchaseRequest) returns (Nothing){
+    option (google.api.http) = {
+      post: "/v1/gm/purchase/reissue"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Reissue purchase."
+      description: "根据掉单订单号进行补单(每个订单只可进行一次成功补单）."
+      tags: "Gm"
+    };
+  };
+}
+
+message Nothing {}
+
+
+message BanInfo{
+  string profileId = 1;
+  int64 start_time = 2;
+  int64 duration = 3;
+  int32 reason = 4;
+
+}
+
+message SetProfilesBanStatusRequest {
+  enum BanStatus{
+    BAN_STATUS_NORMAL = 0;
+    BAN_STATUS_BAN = 1;
+    BAN_STATUS_UNBAN = 2;
+  }
+  BanInfo profiles = 1;
+  BanStatus status = 2;
+}
+
+
+message SetProfilesBanStatusResponse {
+  Nothing nothing = 1;
+}
+
+message GetProfilesBanStatusRequest {
+  repeated string profileIds = 1; // 传空默认获取所有的
+}
+
+message GetProfilesBanStatusResponse {
+  repeated BanInfo profiles = 1;
+}
+message ProfilesBanChanges {
+  repeated int32 adds = 1;
+  repeated int32 removes = 2;
+}
+
+message BulletinInfo {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
+  int64 created_at = 5;
+  int64 updated_at = 6;
+}
+
+
+message SendBulletinRequest {
+  BulletinInfo bulletin = 1;
+}
+
+message GetBulletinRequest {
+}
+
+message GetBulletinResponse {
+  repeated BulletinInfo bulletins = 1;
+}
+
+message GetPurchaseRecordRequest{
+  string id = 1;
+}
+
+message GetPurchaseRecordResponse{
+  string id = 1;
+  string profile = 2;
+  string product_id = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+}
+
+message ReissuePurchaseRequest{
+  string id = 1;
+}
+

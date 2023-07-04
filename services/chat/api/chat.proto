@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package chat.pb;
+option go_package = "chat/api;chat";
+
+service ChatService {
+  rpc Chat(stream ChatRequest) returns(stream ChatResponse);
+}
+
+enum ChatChannel {
+  None = 0;
+  World = 1;
+  Private = 2;
+  Room = 3;
+  Guild = 4;
+  System = 5;
+}
+
+message Destination{
+  ChatChannel channel = 1;
+  string id = 2;
+}
+
+message ChatMessage{
+  //message we send or receive chat information, It carries the necessary information
+  message Message{
+    //user id
+    string profileID = 1;
+    //who started the chat
+    string nickname = 2;
+    //user avatar
+    int32 avatar = 3;
+    // user avatar frame
+    int32 avatarFrame = 4;
+    // user gender
+    int32 gender = 5;
+    //content
+    string content = 6;
+    //send time
+    int64 timestamp = 7;
+  }
+
+  //send where
+  Destination destination = 1;
+
+  //chat all content
+  repeated Message message = 2;
+}
+
+message ChatRequest {
+  message Subscribe{
+    //who started the chat
+    string profileID = 1;
+
+    //send where
+    Destination destination = 2;
+  }
+
+  message UnSubscribe{
+    //who started the chat
+    string ProfileID = 1;
+
+    //send where
+    Destination destination = 2;
+  }
+
+  message Chat{
+    ChatMessage message = 1;
+  }
+
+  //this individual message for client automatically reconnect and bind processing events for client processing
+  message Connect{
+  }
+
+  oneof kind {
+    Subscribe subscribe = 1;
+    UnSubscribe unsubscribe = 3;
+    Chat message = 2;
+  }
+}
+
+message ChatError{
+  //no parameters required
+  message Nothing {
+  }
+
+  message Interval{
+    //chat remaining millisecond time
+    int64 remainingTime = 1;
+  }
+
+  //error code
+  string error = 1;
+
+  //send where
+  Destination destination = 2;
+
+  //send time
+  int64 timestamp = 3;
+
+  oneof kind {
+    Nothing nothing = 4;
+    Interval interval = 5;
+  }
+}
+
+message ChatResponse {
+  message Connected{
+  }
+
+  oneof kind {
+    ChatMessage message = 1;
+    ChatError error = 2;
+    Connected connect = 3;
+  }
+}

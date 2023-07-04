@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package mail.v1;
+option go_package = "mail/api;pb";
+
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+service MailService {
+  rpc Watch(Nothing) returns (stream WatchMailResponse);
+  rpc UpdateMail (UpdateMailRequest) returns (UpdateMailResponse);
+  rpc SendMail (SendMailRequest) returns (Nothing) {
+    option (google.api.http) = {
+      post: "/v1/mail/send"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Send mail."
+      description: "Send an mail to players."
+      tags: "Mails"
+    };
+  };
+}
+
+message Nothing {}
+
+message MailReward{
+  int32 id = 1;  // 奖励id
+  int32 num = 2; // 奖励数量
+  int64 expire = 3;   // 奖励过期时间
+}
+enum MailStatus{
+  UNREAD = 0;
+  READ = 1;
+  REWARDED = 2;
+  DELETED = 3;
+}
+
+message Mail {
+  int64 id = 1; // 邮件唯一id
+  string theme = 2; // 邮件主题
+  string body = 3; //邮件内容
+  int64 date = 4; // 邮件发送时间
+  int64 expire = 5; // 邮件过期时间
+  int32 from = 6; // 邮件发送者
+  repeated MailReward rewards = 7; // 邮件附件
+  MailStatus status = 8; // 邮件状态
+}
+
+message SendMailRequest{
+  Mail mail = 1;
+  repeated string targets = 2;
+}
+
+message WatchMailResponse {
+  repeated Mail mails = 1;
+}
+
+message UpdateMailRequest{
+  int64 id = 1;
+  MailStatus status = 2;
+}
+
+message UpdateMailResponse{
+  repeated MailReward rewards = 1;
+}
